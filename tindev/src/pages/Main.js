@@ -19,6 +19,8 @@ export default function Main({  navigation }) {
     const id = navigation.getParam('user');
     const [users, setUsers] = useState([]); //"users" é o valor do estado e "setUsers" é uma função para atualizar ele
 
+    console.log(id);
+
     // Vai fazer uma chamada Api assim que o componente for exibido em tela
     useEffect(() => {
         // Essa função vai na Api para buscar os dados dos devs na Listagem e vai armazenar para poder mostrar em tela
@@ -37,9 +39,9 @@ export default function Main({  navigation }) {
 
     // função que da um um POST da API informando que o usuário logado deu um "like" em outro usuário
     async function handleLike() {
-        const [ user, ...rest ] = users;
+        const [user, ...rest] = users;
 
-        await api.post(`devs/${user.id}/likes`, null, {
+        await api.post(`devs/${user._id}/likes`, null, {
             headers: { user: id },
         })
 
@@ -48,9 +50,9 @@ export default function Main({  navigation }) {
     };
 
     async function handleDislike() {
-        const [ user, ...rest ] = users;
+        const [user, ...rest] = users;
 
-        await api.post(`devs/${user.id}/dislikes`, null, {
+        await api.post(`devs/${user._id}/dislikes`, null, {
             headers: { user: id },
         })
 
@@ -76,7 +78,7 @@ export default function Main({  navigation }) {
         : (
             users.map((user, index) => (
           
-                <View key={user._id} style={[styles.card, { zIndex: users.length - index }]} >     {/* o zIndex estabelece qual card vai aparecer primerio, sendo o maior número o primerio */}  
+                <View key={user._id} style={[styles.card, { zIndex: users.length - index }]} >  
                     <Image style={styles.avatar} source={{ uri: user.avatar}} />
                     <View style={styles.footer}>
                         <Text style={styles.name}>{user.name}</Text>
@@ -87,7 +89,8 @@ export default function Main({  navigation }) {
         )}
     </View>
 
-    <View style={styles.buttonsContainer}>
+    { users.length > 0 && (
+        <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.button} onPress={handleDislike}>
             <Image source={dislike}/>
         </TouchableOpacity>
@@ -95,6 +98,8 @@ export default function Main({  navigation }) {
             <Image source={like}/>
         </TouchableOpacity>
     </View>
+    )}
+    
     </View>
     );
 }
