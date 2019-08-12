@@ -13,14 +13,14 @@ import api from '../services/api';
 
 import logo from '../assets/logo.png';
 
-export default function Login({navigation}) {
+export default function Login({ navigation }) {
     const [user, setUser] = useState('');
 
     // Apos logar na aplicação e o usuário ter um "F5" na Main ou sair do aplicativo e abrir dnv...
     useEffect(() => {
         AsyncStorage.getItem('user').then(user => { // Vai la no AsyncStorage e buca se o 'user' está presente 
             if(user) {                              // e navega diretamente para rota
-                nagivation.navigate('Main', { user })
+                navigation.navigate('Main', { user })
             }
         })
     }, []);
@@ -33,7 +33,7 @@ export default function Login({navigation}) {
 
         await AsyncStorage.setItem('user', _id);
 
-        navigation.navigate('Main', { _id });
+        navigation.navigate('Main', { user: _id} );
     }
     return (
         <View style={styles.container}>
