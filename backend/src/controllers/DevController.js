@@ -9,7 +9,7 @@ module.exports = {
         // Procura pelo Id no banco e coloca em loggedDev
         const loggedDev = await Dev.findById(user);
         
-        // Popula users com 
+        // Popula users com os outros usuários que o loggedDev ainda não deu um Like ou Dislike
         const users = await Dev.find({
             $and: [
                 { _id: { $ne: user } },
@@ -17,7 +17,8 @@ module.exports = {
                 { _id: { $nin: loggedDev.dislikes } },
             ],
         })
-
+        
+        // Retorna users
         return res.json(users);
     },
 
