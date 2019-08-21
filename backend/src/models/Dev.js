@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require('mongoose'); // biblioteca do Nodejs que modela os dados da sua aplicação
 
 // É a abstração do banco de dados ( todos os atributos da "Tabela")
 const DevSchema = new Schema({
